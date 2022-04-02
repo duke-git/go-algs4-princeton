@@ -30,3 +30,29 @@ func TestQuickUnion_Connected(t *testing.T) {
 	assert.Equal(true, qf.QuickConnected(7, 8))
 	assert.Equal(false, qf.QuickConnected(3, 7))
 }
+
+func TestWeightedQuickUnion(t *testing.T) {
+	assert := internal.NewAssert(t, "TestWeightedQuickUnion")
+	qf := NewQuickFind(10)
+	qf.WeightedQuickUnion(3, 4)
+	qf.WeightedQuickUnion(7, 8)
+
+	qf.PrintData()
+
+	assert.Equal(true, qf.QuickConnected(3, 4))
+	assert.Equal(true, qf.QuickConnected(7, 8))
+	assert.Equal(false, qf.QuickConnected(3, 7))
+}
+
+func Test_WeightedQuickUnion_WithPathCompression(t *testing.T) {
+	assert := internal.NewAssert(t, "Test_WeightedQuickUnion_WithPathCompression")
+	qf := NewQuickFind(10)
+	qf.WeightedQuickUnionWithPathCompression(3, 4)
+	qf.WeightedQuickUnionWithPathCompression(7, 8)
+
+	qf.PrintData()
+
+	assert.Equal(true, qf.QuickConnected(3, 4))
+	assert.Equal(true, qf.QuickConnected(7, 8))
+	assert.Equal(false, qf.QuickConnected(3, 7))
+}
