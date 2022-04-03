@@ -1,7 +1,7 @@
 package threesum
 
 
-// BruteForceCount O(N) = 1/6 * N^3
+// BruteForceCount O(N) = N^3
 func BruteForceCount(numbers []int) int {
 	var count int
 	length := len(numbers)
@@ -17,4 +17,4 @@ func BruteForceCount(numbers []int) int {
 	}
 
 	return count
-}
+}  
