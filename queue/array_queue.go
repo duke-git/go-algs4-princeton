@@ -23,27 +23,29 @@ func (q *ArrayQueue) IsEmpty() bool {
 }
 
 func (q *ArrayQueue) Enqueue(item string) bool {
-	if q.head == 0 && q.tail == q.capacity { //队列满
+	if q.head == 0 && q.tail == q.capacity {
 		return false
-	} else if q.head != 0 && q.tail == q.capacity { //扩容
+	} else if q.head != 0 && q.tail == q.capacity {
 		for i := q.head; i < q.tail; i++ {
 			q.items[i-q.head] = q.items[i]
 		}
-		q.head = 0
 		q.tail = q.tail - q.head
+		q.head = 0
 	}
 
-	q.items[q.tail] = item
+	q.items = append(q.items, item)
 	q.tail++
 	q.size++
 	return true
 }
 
 func (q *ArrayQueue) Dequeue() (string, bool) {
+	var item string
 	if q.head == q.tail {
-		return "", false
+		return item, false
 	}
-	item := q.items[q.head]
+	item = q.items[q.head]
 	q.head++
+	q.size--
 	return item, true
 }
