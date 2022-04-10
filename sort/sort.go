@@ -2,6 +2,8 @@ package sort
 
 import (
 	"go-algs4-princeton/constraint"
+	"math/rand"
+	"time"
 )
 
 // SelectionSort O(N) = 1/2 * N^2, n times of swap
@@ -52,7 +54,7 @@ func ShellSort[T constraint.Number](slice []T) []T {
 				swap(slice, j, j-h)
 			}
 		}
-		h = h/3
+		h = h / 3
 	}
 
 	return slice
@@ -86,4 +88,16 @@ func partition[T constraint.Number](slice []T, lowIndex, highIndex int) int {
 
 func swap[T any](slice []T, i, j int) {
 	slice[i], slice[j] = slice[j], slice[i]
+}
+
+
+func Shuffle(slice []int)  {
+	for i := 0; i < len(slice); i++ {
+		r := RandInt(0, i+1)
+		swap(slice, i, r)
+	}
+}
+func RandInt(min, max int) int {
+	rand.Seed(time.Now().Unix())
+	return rand.Intn(max-min) + min
 }
