@@ -7,7 +7,7 @@ import (
 )
 
 // SelectionSort O(N) = 1/2 * N^2, n times of swap
-func SelectionSort[T constraint.Number](slice []T) []T {
+func SelectionSort[T constraint.Number](slice []T) {
 	for i := 0; i < len(slice); i++ {
 		min := i
 
@@ -18,13 +18,11 @@ func SelectionSort[T constraint.Number](slice []T) []T {
 		}
 		swap(slice, i, min)
 	}
-
-	return slice
 }
 
 // InsertionSort O(N) = 1/4 * N^2, 1/4 * N^2 times of swap
 // for partical sorted data, InsertionSort takes n times
-func InsertionSort[T constraint.Number](slice []T) []T {
+func InsertionSort[T constraint.Number](slice []T) {
 	for i := 0; i < len(slice); i++ {
 		for j := i; j > 0; j-- {
 			if slice[j] < slice[j-1] {
@@ -35,12 +33,10 @@ func InsertionSort[T constraint.Number](slice []T) []T {
 		}
 
 	}
-
-	return slice
 }
 
 // ShellSort O(N) = N^2/3
-func ShellSort[T constraint.Number](slice []T) []T {
+func ShellSort[T constraint.Number](slice []T) {
 	size := len(slice)
 
 	h := 1
@@ -56,8 +52,47 @@ func ShellSort[T constraint.Number](slice []T) []T {
 		}
 		h = h / 3
 	}
+}
 
-	return slice
+func MergeSort[T constraint.Number](slice []T) {
+	s := make([]T, len(slice))
+	mergeSort(slice, s, 0, len(slice)-1)
+}
+
+func mergeSort[T constraint.Number](partSortedSlice []T, slice []T, low, high int) {
+	if high <= low {
+		return
+	}
+	mid := low + (high-low)/2
+	mergeSort(partSortedSlice, slice, low, mid)
+	mergeSort(partSortedSlice, slice, mid+1, high)
+	merge(partSortedSlice, slice, low, mid, high)
+}
+
+func merge[T constraint.Number](partSortedSlice []T, slice []T, low, mid, high int) {
+	for k := low; k <= high; k++ {
+		slice[k] = partSortedSlice[k]
+	}
+
+	i := low
+	j := mid + 1
+
+	for k := low; k <= high; k++ {
+		if i > mid {
+			partSortedSlice[k] = slice[j]
+			j++
+		} else if j > high {
+			partSortedSlice[k] = slice[i]
+			i++
+		} else if slice[j] < slice[i] {
+			partSortedSlice[k] = slice[j]
+			j++
+		} else {
+			partSortedSlice[k] = slice[i]
+			i++
+		}
+	}
+
 }
 
 func QuickSort[T constraint.Number](slice []T, lowIndex, highIndex int) []T {
@@ -90,8 +125,7 @@ func swap[T any](slice []T, i, j int) {
 	slice[i], slice[j] = slice[j], slice[i]
 }
 
-
-func Shuffle(slice []int)  {
+func Shuffle(slice []int) {
 	for i := 0; i < len(slice); i++ {
 		r := RandInt(0, i+1)
 		swap(slice, i, r)

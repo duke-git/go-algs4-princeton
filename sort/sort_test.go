@@ -35,6 +35,16 @@ func TestShellSort(t *testing.T) {
 	assert.Equal([]int{1, 2, 3, 4, 5}, numbers)
 }
 
+func TestMergeSort(t *testing.T) {
+	assert := internal.NewAssert(t, "TestShellSort")
+
+	numbers := []int{5, 4, 3, 2, 1}
+
+	MergeSort(numbers)
+
+	assert.Equal([]int{1, 2, 3, 4, 5}, numbers)
+}
+
 func TestShuffle(t *testing.T) {
 	// assert := internal.NewAssert(t, "TestShuffle")
 
