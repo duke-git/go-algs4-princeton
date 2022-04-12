@@ -54,6 +54,7 @@ func ShellSort[T constraint.Number](slice []T) {
 	}
 }
 
+// O(N) = N * logN
 func MergeSort[T constraint.Number](slice []T) {
 	s := make([]T, len(slice))
 	mergeSort(slice, s, 0, len(slice)-1)

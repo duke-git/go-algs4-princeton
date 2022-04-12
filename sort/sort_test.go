@@ -22,6 +22,8 @@ func TestInsertionSort(t *testing.T) {
 
 	InsertionSort(numbers)
 
+	t.Log(numbers)
+
 	assert.Equal([]int{1, 2, 3, 4, 5}, numbers)
 }
 
