@@ -96,7 +96,11 @@ func merge[T constraint.Number](partSortedSlice []T, slice []T, low, mid, high i
 
 }
 
-func QuickSort[T constraint.Number](slice []T, low, high int) {
+func QuickSort[T constraint.Number](slice []T) {
+	quickSort2(slice, 0, len(slice)-1)
+}
+
+func quickSort1[T constraint.Number](slice []T, low, high int) {
 	if low > high {
 		return
 	}
@@ -119,35 +123,35 @@ func QuickSort[T constraint.Number](slice []T, low, high int) {
 
 	swap(slice, low, i)
 
-	QuickSort(slice, low, i-1)
-	QuickSort(slice, i+1, high)
+	quickSort1(slice, low, i-1)
+	quickSort1(slice, i+1, high)
 }
 
-// func QuickSort[T constraint.Number](slice []T, lowIndex, highIndex int) []T {
-// 	if lowIndex < highIndex {
-// 		p := partition(slice, lowIndex, highIndex)
-// 		QuickSort(slice, lowIndex, p-1)
-// 		QuickSort(slice, p+1, highIndex)
-// 	}
-
-// 	return slice
-// }
+func quickSort2[T constraint.Number](slice []T, low, high int) {
+	if high <= low {
+		return
+	}
+	j := partition(slice, low, high)
+	quickSort2(slice, low, j-1)
+	quickSort2(slice, j+1, high)
+}
 
 // // partition split slice into two parts
-// func partition[T constraint.Number](slice []T, lowIndex, highIndex int) int {
-// 	p := slice[highIndex]
-// 	i := lowIndex
-// 	for j := lowIndex; j < highIndex; j++ {
-// 		if slice[j] < p {
-// 			swap(slice, i, j)
-// 			i++
-// 		}
-// 	}
+func partition[T constraint.Number](slice []T, low, high int) int {
+	i := low
+	highVal := slice[high]
 
-// 	swap(slice, i, highIndex)
+	for j := low; j < high; j++ {
+		if slice[j] < highVal {
+			swap(slice, i, j)
+			i++
+		}
+	}
 
-// 	return i
-// }
+	swap(slice, i, high)
+
+	return i
+}
 
 func swap[T any](slice []T, i, j int) {
 	slice[i], slice[j] = slice[j], slice[i]

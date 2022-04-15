@@ -26,7 +26,7 @@ func BruteForceCount(numbers []int) int {
 // SortBasedCount first sort, then count. O(N) = N^2 * logN
 func SortBasedCount(numbers []int) int {
 	length := len(numbers)
-	sort.QuickSort(numbers, 0, length-1)
+	sort.QuickSort(numbers)
 	var count int
 
 	for i := 0; i < length; i++ {
