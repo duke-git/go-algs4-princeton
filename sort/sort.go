@@ -98,7 +98,8 @@ func merge[T constraint.Number](partSortedSlice []T, slice []T, low, mid, high i
 
 // QuickSort O(N) = N * logN
 func QuickSort[T constraint.Number](slice []T) {
-	quickSort2(slice, 0, len(slice)-1)
+	// quickSort2(slice, 0, len(slice)-1)
+	threeWayQuickSort(slice, 0, len(slice)-1)
 }
 
 func quickSort1[T constraint.Number](slice []T, low, high int) {
@@ -152,6 +153,34 @@ func partition[T constraint.Number](slice []T, low, high int) int {
 	swap(slice, i, high)
 
 	return i
+}
+
+func threeWayQuickSort[T constraint.Number](slice []T, low, high int) {
+	if high <= low {
+		return
+	}
+
+	lt := low
+	gt := high
+	val := slice[low]
+
+	i := low
+
+	for i <= gt {
+		if slice[i] < val {
+			swap(slice, lt, i)
+			lt++
+			i++
+		} else if slice[i] > val {
+			swap(slice, i, gt)
+			gt--
+		} else {
+			i++
+		}
+	}
+
+	threeWayQuickSort(slice, low, lt-1)
+	threeWayQuickSort(slice, gt+1, high)
 }
 
 func swap[T any](slice []T, i, j int) {
