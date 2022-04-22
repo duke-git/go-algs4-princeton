@@ -6,7 +6,7 @@ import (
 )
 
 func TestPriorityHeapQueue(t *testing.T) {
-	assert := internal.NewAssert(t, "TestBruteForceCount")
+	assert := internal.NewAssert(t, "TestPriorityHeapQueue")
 
 	phq := NewPriorityHeapQueue[int](10)
 
@@ -21,7 +21,7 @@ func TestPriorityHeapQueue(t *testing.T) {
 }
 
 func TestPriorityHeapQueue_DeleteMax(t *testing.T) {
-	assert := internal.NewAssert(t, "TestBruteForceCount")
+	assert := internal.NewAssert(t, "TestPriorityHeapQueue_DeleteMax")
 
 	phq := NewPriorityHeapQueue[int](10)
 
