@@ -9,8 +9,9 @@ type Node[T constraint.Comparable, U any] struct {
 	val   U
 	left  *Node[T, U]
 	right *Node[T, U]
+	count int
 }
 
 func NewNode[T constraint.Comparable, U any](key T, val U) *Node[T, U] {
-	return &Node[T, U]{key, val, nil, nil}
+	return &Node[T, U]{key, val, nil, nil, 0}
 }

@@ -23,6 +23,7 @@ func put[T constraint.Comparable, U any](node *Node[T, U], key T, val U) *Node[T
 		node.val = val
 	}
 
+	node.count = size(node.left) + size(node.right) + 1
 	return node
 }
 
@@ -72,4 +73,15 @@ func floor[T constraint.Comparable, U any](node *Node[T, U], key T) *Node[T, U] 
 		return n
 	}
 	return node
+}
+
+func (t *BSTree[T, U]) Size() int {
+	return size(t.root)
+}
+
+func size[T constraint.Comparable, U any](node *Node[T, U]) int {
+	if node == nil {
+		return 0
+	}
+	return node.count
 }
