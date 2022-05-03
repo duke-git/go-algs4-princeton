@@ -45,3 +45,31 @@ func (t *BSTree[T, U]) Get(key T) U {
 func (t *BSTree[T, U]) Delete(key T) {
 
 }
+
+func (t *BSTree[T, U]) Floor(key T) T {
+	node := floor(t.root, key)
+	if node == nil {
+		var key T
+		return key
+	}
+
+	return node.key
+}
+
+func floor[T constraint.Comparable, U any](node *Node[T, U], key T) *Node[T, U] {
+	if node == nil {
+		return nil
+	}
+
+	if key == node.key {
+		return node
+	} else if key < node.key {
+		return floor(node.left, key)
+	}
+
+	n := floor(node.right, key)
+	if n != nil {
+		return n
+	}
+	return node
+}
