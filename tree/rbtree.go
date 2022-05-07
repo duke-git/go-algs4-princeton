@@ -50,119 +50,135 @@ func (t *RBTree[T, U]) rotateRight(node *Node[T, U]) *Node[T, U] {
 	return temp
 }
 
-func (t *RBTree[T, U]) Put(key T, val U) {
-	t.root = put(t.root, key, val)
+func (t *RBTree[T, U]) flipColors(node *Node[T, U]) {
+	if t.isRed(node) {
+		return
+	}
+	if !(t.isRed(node.left)) {
+		return
+	}
+	if !(t.isRed(node.right)) {
+		return
+	}
+
+	node.color = RED
+	node.left.color = BLACK
+	node.right.color = BLACK
 }
 
-func put[T constraint.Comparable, U any](node *Node[T, U], key T, val U) *Node[T, U] {
-	if node == nil {
-		return NewNode(key, val)
-	}
+// func (t *RBTree[T, U]) Put(key T, val U) {
+// 	t.root = put(t.root, key, val)
+// }
 
-	if key < node.key {
-		node.left = put(node.left, key, val)
-	} else if key > node.key {
-		node.right = put(node.right, key, val)
-	} else if key == node.key {
-		node.val = val
-	}
+// func put[T constraint.Comparable, U any](node *Node[T, U], key T, val U) *Node[T, U] {
+// 	if node == nil {
+// 		return NewNode(key, val)
+// 	}
 
-	node.count = size(node.left) + size(node.right) + 1
-	return node
-}
+// 	if key < node.key {
+// 		node.left = put(node.left, key, val)
+// 	} else if key > node.key {
+// 		node.right = put(node.right, key, val)
+// 	} else if key == node.key {
+// 		node.val = val
+// 	}
 
-func (t *RBTree[T, U]) Get(key T) U {
-	current := t.root
+// 	node.count = size(node.left) + size(node.right) + 1
+// 	return node
+// }
 
-	for current != nil {
-		if key < current.key {
-			current = current.left
-		} else if key > current.key {
-			current = current.left
-		} else {
-			return current.val
-		}
-	}
-	var val U
-	return val
-}
+// func (t *RBTree[T, U]) Get(key T) U {
+// 	current := t.root
 
-func (t *RBTree[T, U]) Delete(key T) {
-	t.root = delete(t.root, key)
-}
+// 	for current != nil {
+// 		if key < current.key {
+// 			current = current.left
+// 		} else if key > current.key {
+// 			current = current.left
+// 		} else {
+// 			return current.val
+// 		}
+// 	}
+// 	var val U
+// 	return val
+// }
 
-func delete[T constraint.Comparable, U any](node *Node[T, U], key T) *Node[T, U] {
-	if node == nil {
-		return nil
-	}
+// func (t *RBTree[T, U]) Delete(key T) {
+// 	t.root = delete(t.root, key)
+// }
 
-	if key < node.key {
-		node.left = delete(node.left, key)
-	} else if key > node.key {
-		node.right = delete(node.right, key)
-	} else {
-		if node.right == nil {
-			return node.left
-		}
-		if node.left == nil {
-			return node.right
-		}
+// func delete[T constraint.Comparable, U any](node *Node[T, U], key T) *Node[T, U] {
+// 	if node == nil {
+// 		return nil
+// 	}
 
-		x := node
-		// node = min(x.right)
-		node.right = deleteMin(node.right)
-		node.left = x.left
-	}
-	node.count = size(node.left) + size(node.right) + 1
+// 	if key < node.key {
+// 		node.left = delete(node.left, key)
+// 	} else if key > node.key {
+// 		node.right = delete(node.right, key)
+// 	} else {
+// 		if node.right == nil {
+// 			return node.left
+// 		}
+// 		if node.left == nil {
+// 			return node.right
+// 		}
 
-	return node
-}
+// 		x := node
+// 		// node = min(x.right)
+// 		node.right = deleteMin(node.right)
+// 		node.left = x.left
+// 	}
+// 	node.count = size(node.left) + size(node.right) + 1
 
-func deleteMin[T constraint.Comparable, U any](node *Node[T, U]) *Node[T, U] {
-	if node.left == nil {
-		return node.right
-	}
+// 	return node
+// }
 
-	node.left = deleteMin(node.left)
-	node.count = size(node.left) + size(node.right) + 1
-	return node
-}
+// func deleteMin[T constraint.Comparable, U any](node *Node[T, U]) *Node[T, U] {
+// 	if node.left == nil {
+// 		return node.right
+// 	}
 
-func (t *BSTree[T, U]) Floor(key T) T {
-	node := floor(t.root, key)
-	if node == nil {
-		var key T
-		return key
-	}
+// 	node.left = deleteMin(node.left)
+// 	node.count = size(node.left) + size(node.right) + 1
+// 	return node
+// }
 
-	return node.key
-}
+// func (t *BSTree[T, U]) Floor(key T) T {
+// 	node := floor(t.root, key)
+// 	if node == nil {
+// 		var key T
+// 		return key
+// 	}
 
-func floor[T constraint.Comparable, U any](node *Node[T, U], key T) *Node[T, U] {
-	if node == nil {
-		return nil
-	}
+// 	return node.key
+// }
 
-	if key == node.key {
-		return node
-	} else if key < node.key {
-		return floor(node.left, key)
-	}
+// func floor[T constraint.Comparable, U any](node *Node[T, U], key T) *Node[T, U] {
+// 	if node == nil {
+// 		return nil
+// 	}
 
-	n := floor(node.right, key)
-	if n != nil {
-		return n
-	}
-	return node
-}
+// 	if key == node.key {
+// 		return node
+// 	} else if key < node.key {
+// 		return floor(node.left, key)
+// 	}
 
-func (t *RBTree[T, U]) Size() int {
-	return size(t.root)
-}
+// 	n := floor(node.right, key)
+// 	if n != nil {
+// 		return n
+// 	}
+// 	return node
+// }
 
-func size[T constraint.Comparable, U any](node *Node[T, U]) int {
-	if node == nil {
-		return 0
-	}
-	return node.count
-}
+// func (t *RBTree[T, U]) Size() int {
+// 	return size(t.root)
+// }
+
+// func size[T constraint.Comparable, U any](node *Node[T, U]) int {
+// 	if node == nil {
+// 		return 0
+// 	}
+// 	return node.count
+// }
