@@ -22,6 +22,20 @@ func (t *RBTree[T, U]) isRed(node *Node[T, U]) bool {
 	return node.color == RED
 }
 
+func (t *RBTree[T, U]) rotateLeft(node *Node[T, U]) *Node[T, U] {
+	if !(t.isRed(node.right)) {
+		return nil
+	}
+
+	temp := node.right
+	node.right = temp.left
+	temp.left = node
+	temp.color = node.color
+	node.color = RED
+
+	return temp
+}
+
 func (t *RBTree[T, U]) Put(key T, val U) {
 	t.root = put(t.root, key, val)
 }
