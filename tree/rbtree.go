@@ -76,21 +76,23 @@ func (t *RBTree[T, U]) put(node *Node[T, U], key T, val U) *Node[T, U] {
 	}
 
 	if key < node.key {
-		node.left = t.put(node.left, key, val)
+		node.left = put(node.left, key, val)
 	} else if key > node.key {
-		node.right = t.put(node.right, key, val)
+		node.right = put(node.right, key, val)
 	} else if key == node.key {
 		node.val = val
 	}
 
-	if t.isRed(node.right) && !t.isRed(node.left) {
+	//right child red, left child black: rotate left
+	if t.isRed(node.right) && !(t.isRed(node.left)) {
 		node = t.rotateLeft(node)
 	}
-	if t.isRed(node.left) && !t.isRed(node.left.left) {
-		node = t.rotateRight(node)
+	// left child, left-left grandchild red: rotate right
+	if t.isRed(node.left) && t.isRed(node.left.left) {
+		node = t.rotateLeft(node)
 	}
-
-	if t.isRed(node.right) && t.isRed(node.left) {
+	// both children red: flip colors
+	if t.isRed(node.left) && t.isRed(node.right) {
 		t.flipColors(node)
 	}
 
