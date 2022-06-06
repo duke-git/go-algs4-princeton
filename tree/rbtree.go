@@ -66,26 +66,37 @@ func (t *RBTree[T, U]) flipColors(node *Node[T, U]) {
 	node.right.color = BLACK
 }
 
-// func (t *RBTree[T, U]) Put(key T, val U) {
-// 	t.root = put(t.root, key, val)
-// }
+func (t *RBTree[T, U]) Put(key T, val U) {
+	t.root = t.put(t.root, key, val)
+}
 
-// func put[T constraint.Comparable, U any](node *Node[T, U], key T, val U) *Node[T, U] {
-// 	if node == nil {
-// 		return NewNode(key, val)
-// 	}
+func (t *RBTree[T, U]) put(node *Node[T, U], key T, val U) *Node[T, U] {
+	if node == nil {
+		return NewNode(key, val)
+	}
 
-// 	if key < node.key {
-// 		node.left = put(node.left, key, val)
-// 	} else if key > node.key {
-// 		node.right = put(node.right, key, val)
-// 	} else if key == node.key {
-// 		node.val = val
-// 	}
+	if key < node.key {
+		node.left = t.put(node.left, key, val)
+	} else if key > node.key {
+		node.right = t.put(node.right, key, val)
+	} else if key == node.key {
+		node.val = val
+	}
 
-// 	node.count = size(node.left) + size(node.right) + 1
-// 	return node
-// }
+	if t.isRed(node.right) && !t.isRed(node.left) {
+		node = t.rotateLeft(node)
+	}
+	if t.isRed(node.left) && !t.isRed(node.left.left) {
+		node = t.rotateRight(node)
+	}
+
+	if t.isRed(node.right) && t.isRed(node.left) {
+		t.flipColors(node)
+	}
+
+	node.count = size(node.left) + size(node.right) + 1
+	return node
+}
 
 // func (t *RBTree[T, U]) Get(key T) U {
 // 	current := t.root
