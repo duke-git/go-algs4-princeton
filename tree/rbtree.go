@@ -98,21 +98,21 @@ func (t *RBTree[T, U]) put(node *Node[T, U], key T, val U) *Node[T, U] {
 	return node
 }
 
-// func (t *RBTree[T, U]) Get(key T) U {
-// 	current := t.root
+func (t *RBTree[T, U]) Get(key T) U {
+	current := t.root
 
-// 	for current != nil {
-// 		if key < current.key {
-// 			current = current.left
-// 		} else if key > current.key {
-// 			current = current.left
-// 		} else {
-// 			return current.val
-// 		}
-// 	}
-// 	var val U
-// 	return val
-// }
+	for current != nil {
+		if key < current.key {
+			current = current.left
+		} else if key > current.key {
+			current = current.left
+		} else {
+			return current.val
+		}
+	}
+	var val U
+	return val
+}
 
 // func (t *RBTree[T, U]) Delete(key T) {
 // 	t.root = delete(t.root, key)
@@ -183,9 +183,9 @@ func (t *RBTree[T, U]) put(node *Node[T, U], key T, val U) *Node[T, U] {
 // 	return node
 // }
 
-// func (t *RBTree[T, U]) Size() int {
-// 	return size(t.root)
-// }
+func (t *RBTree[T, U]) Size() int {
+	return size(t.root)
+}
 
 // func size[T constraint.Comparable, U any](node *Node[T, U]) int {
 // 	if node == nil {
